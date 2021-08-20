@@ -11,6 +11,9 @@ namespace data_extractor
 {
     public class DataExtractor
     {
+        /// <summary>
+        /// This method extracts the needed information and stores the data in data/DataExtractor_Output.csv
+        /// </summary>
         public void UploadCsvAndDownloadExtractedDataFile()
         {
             IEnumerable<OutputCsvModel> outputRecords;
