@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using data_extractor.Models;
+﻿using data_extractor.Models;
 using System.Globalization;
 using CsvHelper;
 using System.IO;
@@ -7,29 +6,21 @@ using System.Collections.Generic;
 using System.Linq;
 using YamlDotNet.Serialization;
 using System;
-using Microsoft.Extensions.Logging;
 
-namespace data_extractor.Controllers
+namespace data_extractor
 {
-    public class DataExtractor : Controller
+    public class DataExtractor
     {
-        private readonly ILogger<DataExtractor> _logger;
-
-        public DataExtractor(ILogger<DataExtractor> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet("/extract-data")]
         public void UploadCsvAndDownloadExtractedDataFile()
         {
             IEnumerable<OutputCsvModel> outputRecords;
 
             // extracting the csv file content into the list of 'InputCsvModel' model object using CsvHelper,
             // and transforming data into the list of 'OutputCsvModel' model object.
-            using (StreamReader reader = new StreamReader("docs\\DataExtractor_Example_Input.csv"))
+            using (StreamReader reader = new StreamReader("data\\DataExtractor_Example_Input.csv"))
             {
                 reader.ReadLine();
+                Console.WriteLine("extracting data...");
                 using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
                     IEnumerable<InputCsvModel> records = csv.GetRecords<InputCsvModel>();
@@ -43,9 +34,10 @@ namespace data_extractor.Controllers
             }
 
             // storing the extracted data into the output csv file using CsvHelper.
-            using (var writer = new StreamWriter("docs\\DataExtractor_Output.csv"))
+            using (var writer = new StreamWriter("data\\DataExtractor_Output.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
+                Console.WriteLine("storing data in data/DataExtractor_Output.csv file...");
                 csv.WriteRecords(outputRecords);
             }
         }
@@ -61,7 +53,7 @@ namespace data_extractor.Controllers
             }
             catch(Exception exception)
             {
-                _logger.LogError("string parse error: ", exception);                
+                Console.WriteLine("string parse error: ", exception);
             }
             return response["PriceMultiplier"];
         }
