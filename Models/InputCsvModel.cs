@@ -1,5 +1,3 @@
-using System;
-
 namespace data_extractor.Models
 {
     public class InputCsvModel
