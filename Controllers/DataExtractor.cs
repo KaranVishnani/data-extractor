@@ -24,6 +24,9 @@ namespace data_extractor.Controllers
         public void UploadCsvAndDownloadExtractedDataFile()
         {
             IEnumerable<OutputCsvModel> outputRecords;
+
+            // extracting the csv file content into the list of 'InputCsvModel' model object using CsvHelper,
+            // and transforming data into the list of 'OutputCsvModel' model object.
             using (StreamReader reader = new StreamReader("docs\\DataExtractor_Example_Input.csv"))
             {
                 reader.ReadLine();
@@ -39,6 +42,7 @@ namespace data_extractor.Controllers
                 }
             }
 
+            // storing the extracted data into the output csv file using CsvHelper.
             using (var writer = new StreamWriter("docs\\DataExtractor_Output.csv"))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
